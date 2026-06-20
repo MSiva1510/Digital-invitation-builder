@@ -1,0 +1,28 @@
+{
+  "primary": "#D4AF37",
+  "secondary": "#FFFFFF",
+  "accent": "#8B4513",
+  "text": "#333333",
+  "textLight": "#FFFFFF",
+  "background": "#F5F5F5",
+  "surface": "#FFFFFF",
+  "border": "#DDDDDD",
+  "success": "#4CAF50",
+  "warning": "#FF9800",
+  "error": "#F44336",
+  "fonts": {
+    "heading": "Poppins",
+    "body": "Lato",
+    "accent": "Great Vibes"
+  },
+  "hero": {
+    "background": "linear-gradient(135deg, #D4AF37 0%, #8B4513 100%)",
+    "opacity": 0.9
+  },
+  "buttons": {
+    "style": "rounded",
+    "size": "medium"
+  },
+  "createdAt": "2026-06-01T00:00:00Z",
+  "updatedAt": "2026-06-01T00:00:00Z"
+}

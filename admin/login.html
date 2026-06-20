@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Phase 3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .login-header h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      margin: 0;
+      cursor: pointer;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      border-left: 4px solid #c62828;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 12px;
+    }
+
+    .footer-links a {
+      color: #667eea;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #764ba2;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .demo-info {
+      background: #e3f2fd;
+      border-left: 4px solid #2196F3;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: #1565c0;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+
+      .login-header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="login-icon">🔐</div>
+      <h1>Admin Login</h1>
+      <p>Digital Invitation Builder</p>
+    </div>
+
+    <div class="demo-info">
+      <strong>Demo Password:</strong> change-me
+    </div>
+
+    <div class="error-message" id="error-message"></div>
+
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="password">Admin Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          placeholder="Enter your admin password" 
+          required
+          autocomplete="current-password"
+        >
+      </div>
+
+      <div class="remember-me">
+        <input 
+          type="checkbox" 
+          id="remember" 
+          onchange="updateRememberMe()"
+        >
+        <label for="remember">Remember me for 7 days</label>
+      </div>
+
+      <button type="submit" class="login-btn">Login to Admin Panel</button>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 10px; font-size: 12px; color: #666;">Logging in...</p>
+      </div>
+    </form>
+
+    <div class="divider">or</div>
+
+    <div class="footer-links">
+      <a href="../invitation.html">← Back to Invitation</a>
+      <a href="#" onclick="changePassword(event)">Change Password</a>
+    </div>
+  </div>
+
+  <script src="../js/auth-manager.js"></script>
+  <script>
+    /**
+     * Handle login form submission
+     */
+    function handleLogin(event) {
+      event.preventDefault();
+
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-message');
+      const loading = document.getElementById('loading');
+
+      errorMsg.classList.remove('show');
+      loading.style.display = 'block';
+
+      // Simulate network delay
+      setTimeout(() => {
+        const result = authManager.login(password);
+
+        if (result.success) {
+          // Check "Remember me" option
+          if (document.getElementById('remember').checked) {
+            authManager.setRememberMe(7); // 7 days
+          }
+
+          // Redirect to admin dashboard
+          window.location.href = 'index.html';
+        } else {
+          errorMsg.textContent = result.error;
+          errorMsg.classList.add('show');
+          loading.style.display = 'none';
+        }
+      }, 500);
+    }
+
+    /**
+     * Update remember me setting
+     */
+    function updateRememberMe() {
+      const checked = document.getElementById('remember').checked;
+      localStorage.setItem('rememberMe', checked ? 'true' : 'false');
+    }
+
+    /**
+     * Change password
+     */
+    function changePassword(event) {
+      event.preventDefault();
+
+      const newPassword = prompt(
+        'Enter new admin password:\n(Leave blank to keep current)',
+        ''
+      );
+
+      if (newPassword !== null && newPassword !== '') {
+        if (newPassword.length < 6) {
+          alert('Password must be at least 6 characters');
+          return;
+        }
+
+        const result = authManager.changePassword(newPassword);
+        if (result.success) {
+          alert('Password changed successfully!');
+        } else {
+          alert('Error: ' + result.error);
+        }
+      }
+    }
+
+    /**
+     * Check if already logged in
+     */
+    function checkExistingSession() {
+      if (authManager.isAuthenticated()) {
+        window.location.href = 'index.html';
+      }
+    }
+
+    /**
+     * Restore password field focus
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      checkExistingSession();
+      document.getElementById('password').focus();
+
+      // Check remember me setting
+      if (localStorage.getItem('rememberMe') === 'true') {
+        document.getElementById('remember').checked = true;
+      }
+    });
+
+    /**
+     * Auto-logout after 30 minutes of inactivity
+     */
+    let inactivityTimer;
+    const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        authManager.logout();
+        alert('Your session has expired due to inactivity.');
+        window.location.href = 'login.html';
+      }, INACTIVITY_TIMEOUT);
+    }
+
+    // Only on pages that require authentication
+    if (authManager.isAuthenticated()) {
+      document.addEventListener('mousemove', resetInactivityTimer);
+      document.addEventListener('keypress', resetInactivityTimer);
+      resetInactivityTimer();
+    }
+  </script>
+</body>
+</html>

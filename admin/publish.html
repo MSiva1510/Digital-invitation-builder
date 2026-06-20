@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Invitation - Phase 3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .publish-grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .checklist {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .checklist h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 15px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 15px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+      background: #f9f9f9;
+      transition: all 0.3s ease;
+    }
+
+    .check-item.passed {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+    }
+
+    .check-item.failed {
+      background: #ffebee;
+      border-left: 4px solid #f44336;
+    }
+
+    .check-icon {
+      font-size: 24px;
+      min-width: 30px;
+    }
+
+    .check-content {
+      flex: 1;
+    }
+
+    .check-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .check-message {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .sidebar {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .progress-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#667eea 0deg, #667eea 0deg, #e0e0e0 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .progress-circle span {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .progress-label {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-publish {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .btn-publish:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-publish:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .status-message {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #4caf50;
+      display: block;
+    }
+
+    .status-message.error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #f44336;
+      display: block;
+    }
+
+    .report {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .report.show {
+      display: block;
+    }
+
+    .report h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .report-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .report-item:last-child {
+      border-bottom: none;
+    }
+
+    .report-label {
+      font-weight: 600;
+      color: #666;
+    }
+
+    .report-value {
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .publish-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .header {
+        padding: 25px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 Publish Invitation</h1>
+      <p>Validate and publish your digital invitation</p>
+    </div>
+
+    <div class="publish-grid">
+      <!-- Checklist -->
+      <div class="checklist" id="checklist">
+        <!-- Items will be populated by JS -->
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="progress-circle" id="progress-circle">
+          <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-label">Completion Progress</div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <button class="btn btn-publish" id="publish-btn" onclick="publishInvitation()" disabled>
+          🚀 Publish Now
+        </button>
+        <button class="btn btn-secondary" onclick="previewInvitation()">
+          👁️ Preview
+        </button>
+        <button class="btn btn-secondary" onclick="exportPackage()">
+          📦 Export Package
+        </button>
+      </div>
+    </div>
+
+    <!-- Publish Report -->
+    <div class="report" id="report">
+      <h3>✓ Publication Report</h3>
+      <div class="report-item">
+        <span class="report-label">Status</span>
+        <span class="report-value" id="report-status">Published</span>
+      </div>
+      <div class="report-item">
+        <span class="report-label">Published At</span>
+        <span class="report-value" id="report-time">-</span>
+      </div>
+      <div class="report-item">
+        <span class="report-label">Invitation URL</span>
+        <span class="report-value" id="report-url">-</span>
+      </div>
+      <div class="report-item">
+        <span class="report-label">Data Version</span>
+        <span class="report-value" id="report-version">-</span>
+      </div>
+      <button class="btn btn-secondary" style="margin-top: 15px;" onclick="sharePublishedLink()">
+        📤 Share Link
+      </button>
+    </div>
+  </div>
+
+  <script src="../js/publish-manager.js"></script>
+  <script src="../js/whatsapp-sharing.js"></script>
+  <script>
+    async function initializePublish() {
+      await publishManager.initialize();
+      renderChecklist();
+      updateProgress();
+    }
+
+    function renderChecklist() {
+      const checks = publishManager.getChecklist();
+      const container = document.getElementById('checklist');
+
+      container.innerHTML = checks.map(check => `
+        <div class="check-item ${check.passed ? 'passed' : 'failed'}">
+          <div class="check-icon">${check.passed ? '✓' : '✕'}</div>
+          <div class="check-content">
+            <div class="check-title">${check.title}</div>
+            <div class="check-message">${check.message}</div>
+          </div>
+        </div>
+      `).join('');
+
+      updatePublishButton();
+    }
+
+    function updateProgress() {
+      const progress = publishManager.getProgress();
+      const circle = document.getElementById('progress-circle');
+      const text = document.getElementById('progress-text');
+
+      const percentage = progress.percentage;
+      const hue = (percentage / 100) * 120; // Green when 100%
+
+      circle.style.background = `conic-gradient(hsl(${hue}, 100%, 50%) 0deg, hsl(${hue}, 100%, 50%) ${percentage * 3.6}deg, #e0e0e0 ${percentage * 3.6}deg)`;
+      text.textContent = Math.round(percentage) + '%';
+    }
+
+    function updatePublishButton() {
+      const validation = publishManager.validateAll();
+      const btn = document.getElementById('publish-btn');
+      btn.disabled = !validation.valid;
+    }
+
+    async function publishInvitation() {
+      const validation = publishManager.validateAll();
+
+      if (!validation.valid) {
+        showMessage('Please complete all requirements', 'error');
+        return;
+      }
+
+      const publish = publishManager.publish();
+
+      if (publish.success) {
+        showMessage('Invitation published successfully!', 'success');
+        showPublishReport(publish.data);
+        document.getElementById('report').classList.add('show');
+      } else {
+        showMessage('Error publishing: ' + publish.error, 'error');
+      }
+    }
+
+    function showMessage(message, type) {
+      const el = document.getElementById('status-message');
+      el.textContent = message;
+      el.className = 'status-message ' + type;
+
+      setTimeout(() => {
+        el.className = 'status-message';
+      }, 5000);
+    }
+
+    function showPublishReport(data) {
+      document.getElementById('report-status').textContent = 'Published ✓';
+      document.getElementById('report-time').textContent = new Date(data.timestamp).toLocaleString();
+      document.getElementById('report-url').textContent = data.url;
+      document.getElementById('report-version').textContent = data.version;
+    }
+
+    function previewInvitation() {
+      window.open('../invitation.html', '_blank');
+    }
+
+    function exportPackage() {
+      const pkg = publishManager.exportPackage();
+      const dataStr = JSON.stringify(pkg, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'invitation-package.json';
+      link.click();
+    }
+
+    function sharePublishedLink() {
+      const data = publishManager.getPublishData();
+      const message = `Check out my invitation: ${data.url}`;
+      const link = whatsAppSharing.generateShareLink(message);
+      window.open(link, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', initializePublish);
+  </script>
+</body>
+</html>

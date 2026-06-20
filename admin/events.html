@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Manager - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      background: #D4AF37;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-header h1 {
+      font-size: 28px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #D4AF37;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b8941e;
+    }
+
+    .btn-danger {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #da190b;
+    }
+
+    .btn-small {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .event-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .event-card h3 {
+      color: #D4AF37;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .event-details {
+      font-size: 14px;
+      margin: 10px 0;
+      color: #666;
+    }
+
+    .event-details strong {
+      color: #333;
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      color: #D4AF37;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div>
+        <h1>📅 Events Manager</h1>
+        <p>Manage invitation events</p>
+      </div>
+      <button class="btn btn-primary" onclick="openAddEventModal()">+ Add Event</button>
+    </div>
+
+    <div id="events-grid" class="events-grid">
+      <!-- Events will be populated here -->
+    </div>
+
+    <!-- Add/Edit Event Modal -->
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Event</h2>
+          <button class="modal-close" onclick="closeEventModal()">&times;</button>
+        </div>
+
+        <form id="event-form">
+          <div class="form-group">
+            <label>Event Title (English)</label>
+            <input type="text" id="event-title-en" placeholder="e.g., Reception" required>
+          </div>
+
+          <div class="form-group">
+            <label>Event Title (Tamil)</label>
+            <input type="text" id="event-title-ta" placeholder="e.g., விருந்து">
+          </div>
+
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="event-date" required>
+          </div>
+
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" id="event-time" required>
+          </div>
+
+          <div class="form-group">
+            <label>Venue (English)</label>
+            <input type="text" id="event-venue-en" placeholder="e.g., Grand Hotel" required>
+          </div>
+
+          <div class="form-group">
+            <label>Venue (Tamil)</label>
+            <input type="text" id="event-venue-ta" placeholder="e.g., கிரண்ட் ஹோட்டல்">
+          </div>
+
+          <div class="form-group">
+            <label>Description (English)</label>
+            <textarea id="event-desc-en" placeholder="Event details..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Description (Tamil)</label>
+            <textarea id="event-desc-ta" placeholder="நிகழ்வு விவரங்கள்..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Google Maps URL</label>
+            <input type="url" id="event-map" placeholder="https://maps.google.com/?q=...">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn" onclick="closeEventModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/language-manager.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/event-manager.js"></script>
+
+  <script>
+    let editingEventId = null;
+
+    async function initializeEventsManager() {
+      await eventManager.initialize();
+      renderEvents();
+    }
+
+    function renderEvents() {
+      const events = eventManager.getAllEvents();
+      const container = document.getElementById('events-grid');
+
+      if (events.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <p>No events yet. Create your first event!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = events.map((event, index) => `
+        <div class="event-card">
+          <h3>${event.title?.en || 'Event'}</h3>
+          <div class="event-details">
+            <div><strong>Date:</strong> ${event.date}</div>
+            <div><strong>Time:</strong> ${event.time}</div>
+            <div><strong>Venue:</strong> ${event.venue?.en || 'N/A'}</div>
+          </div>
+          <div class="event-actions">
+            <button class="btn btn-small" onclick="editEvent(${index})">Edit</button>
+            <button class="btn btn-small" onclick="moveUp(${index})" ${index === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn btn-small" onclick="moveDown(${index})" ${index === events.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="btn btn-small btn-danger" onclick="deleteEvent('${event.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openAddEventModal() {
+      editingEventId = null;
+      document.getElementById('modal-title').textContent = 'Add Event';
+      document.getElementById('event-form').reset();
+      document.getElementById('event-modal').classList.add('active');
+    }
+
+    function closeEventModal() {
+      document.getElementById('event-modal').classList.remove('active');
+    }
+
+    function editEvent(index) {
+      const events = eventManager.getAllEvents();
+      const event = events[index];
+      editingEventId = event.id;
+
+      document.getElementById('modal-title').textContent = 'Edit Event';
+      document.getElementById('event-title-en').value = event.title?.en || '';
+      document.getElementById('event-title-ta').value = event.title?.ta || '';
+      document.getElementById('event-date').value = event.date || '';
+      document.getElementById('event-time').value = event.time || '';
+      document.getElementById('event-venue-en').value = event.venue?.en || '';
+      document.getElementById('event-venue-ta').value = event.venue?.ta || '';
+      document.getElementById('event-desc-en').value = event.description?.en || '';
+      document.getElementById('event-desc-ta').value = event.description?.ta || '';
+      document.getElementById('event-map').value = event.map || '';
+
+      document.getElementById('event-modal').classList.add('active');
+    }
+
+    function deleteEvent(eventId) {
+      if (confirm('Are you sure you want to delete this event?')) {
+        eventManager.deleteEvent(eventId);
+        renderEvents();
+      }
+    }
+
+    function moveUp(index) {
+      const events = eventManager.getAllEvents();
+      if (index > 0) {
+        eventManager.moveEventUp(events[index].id);
+        renderEvents();
+      }
+    }
+
+    function moveDown(index) {
+      const events = eventManager.getAllEvents();
+      if (index < events.length - 1) {
+        eventManager.moveEventDown(events[index].id);
+        renderEvents();
+      }
+    }
+
+    document.getElementById('event-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const eventData = {
+        title: {
+          en: document.getElementById('event-title-en').value,
+          ta: document.getElementById('event-title-ta').value
+        },
+        date: document.getElementById('event-date').value,
+        time: document.getElementById('event-time').value,
+        venue: {
+          en: document.getElementById('event-venue-en').value,
+          ta: document.getElementById('event-venue-ta').value
+        },
+        description: {
+          en: document.getElementById('event-desc-en').value,
+          ta: document.getElementById('event-desc-ta').value
+        },
+        map: document.getElementById('event-map').value
+      };
+
+      if (editingEventId) {
+        eventManager.editEvent(editingEventId, eventData);
+      } else {
+        eventManager.addEvent(eventData);
+      }
+
+      renderEvents();
+      closeEventModal();
+    });
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', initializeEventsManager);
+  </script>
+</body>
+</html>

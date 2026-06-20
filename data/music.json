@@ -1,0 +1,33 @@
+{
+  "enabled": true,
+  "autoplay": false,
+  "loop": true,
+  "volume": 0.7,
+  "track": {
+    "url": "uploads/music/background-music.mp3",
+    "title": {
+      "en": "Background Music",
+      "ta": "பின்னணி இசை"
+    },
+    "artist": {
+      "en": "Artist Name",
+      "ta": "கலைஞர் பெயர்"
+    }
+  },
+  "playlist": [
+    {
+      "id": 1,
+      "url": "uploads/music/song1.mp3",
+      "title": { "en": "Track 1", "ta": "பாடல் 1" },
+      "duration": 180
+    },
+    {
+      "id": 2,
+      "url": "uploads/music/song2.mp3",
+      "title": { "en": "Track 2", "ta": "பாடல் 2" },
+      "duration": 240
+    }
+  ],
+  "createdAt": "2026-06-01T00:00:00Z",
+  "updatedAt": "2026-06-01T00:00:00Z"
+}

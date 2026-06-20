@@ -1,0 +1,30 @@
+{
+  "enabled": true,
+  "categories": {
+    "images": {
+      "enabled": true,
+      "maxSize": 10485760,
+      "maxCount": 50,
+      "supportedFormats": ["jpg", "png", "webp", "gif"]
+    },
+    "videos": {
+      "enabled": true,
+      "maxSize": 52428800,
+      "maxCount": 10,
+      "supportedFormats": ["mp4", "webm"]
+    },
+    "audio": {
+      "enabled": true,
+      "maxSize": 20971520,
+      "maxCount": 20,
+      "supportedFormats": ["mp3", "wav"]
+    }
+  },
+  "storage": {
+    "location": "uploads",
+    "backend": "localStorage",
+    "compression": false
+  },
+  "uploads": [],
+  "lastUpdated": "2026-06-16T00:00:00Z"
+}

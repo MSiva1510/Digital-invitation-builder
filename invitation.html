@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Invitation</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #C8A96E;
+      --secondary-color: #D4849A;
+      --background-color: #080D1C;
+      --surface-color: #0D1530;
+      --text-color: #F2DFA0;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-accent: 'Great Vibes', cursive;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, var(--background-color), #0a0604);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body.light-mode {
+      background: linear-gradient(135deg, #fdf6e3, #f5e8c8);
+      color: #333;
+    }
+
+    /* Header */
+    .invitation-header {
+      padding: 60px 20px;
+      text-align: center;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .monogram-section {
+      margin-bottom: 40px;
+    }
+
+    .monogram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-family: var(--font-heading);
+    }
+
+    .letter {
+      font-size: 80px;
+      color: var(--primary-color);
+      font-weight: 700;
+      text-shadow: 0 0 20px rgba(200, 169, 110, 0.3);
+    }
+
+    .amp {
+      font-family: var(--font-accent);
+      font-size: 60px;
+      color: var(--secondary-color);
+    }
+
+    .couple-names {
+      margin: 30px 0;
+    }
+
+    .couple-name {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--text-color);
+      margin: 10px 0;
+    }
+
+    body.light-mode .couple-name {
+      color: #111;
+    }
+
+    .and-text {
+      font-family: var(--font-accent);
+      font-size: 32px;
+      color: var(--secondary-color);
+      margin: 20px 0;
+    }
+
+    .event-type {
+      font-size: 18px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-top: 20px;
+    }
+
+    /* Events Section */
+    .events-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .event-section {
+      background: rgba(13, 21, 48, 0.5);
+      border: 1px solid rgba(200, 169, 110, 0.2);
+      border-radius: 10px;
+      padding: 40px;
+      margin: 30px 0;
+      backdrop-filter: blur(10px);
+    }
+
+    body.light-mode .event-section {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(200, 169, 110, 0.3);
+      color: #333;
+    }
+
+    .event-section.main-event {
+      border: 2px solid var(--primary-color);
+      background: rgba(13, 21, 48, 0.8);
+    }
+
+    body.light-mode .event-section.main-event {
+      background: rgba(255, 248, 230, 0.95);
+    }
+
+    .event-name {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      color: var(--primary-color);
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 15px;
+    }
+
+    body.light-mode .event-name {
+      color: #8b5a2b;
+    }
+
+    .event-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .detail-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      width: 40px;
+      text-align: center;
+    }
+
+    .detail-content {
+      flex: 1;
+    }
+
+    .detail-label {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    body.light-mode .detail-label {
+      color: #8b5a2b;
+    }
+
+    .detail-value {
+      font-size: 16px;
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    body.light-mode .detail-value {
+      color: #555;
+    }
+
+    .maps-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: var(--primary-color);
+      color: #080D1C;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .maps-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4);
+    }
+
+    body.light-mode .maps-link {
+      color: #fff;
+      background: #8b5a2b;
+    }
+
+    .description {
+      padding: 20px;
+      background: rgba(200, 169, 110, 0.1);
+      border-radius: 5px;
+      border-left: 4px solid var(--secondary-color);
+      margin-top: 20px;
+    }
+
+    body.light-mode .description {
+      background: rgba(200, 169, 110, 0.05);
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px 20px;
+    }
+
+    .gallery-title {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 15px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid rgba(200, 169, 110, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-color);
+      box-shadow: 0 10px 30px rgba(200, 169, 110, 0.3);
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-caption {
+      padding: 15px;
+      background: rgba(13, 21, 48, 0.8);
+      color: var(--text-color);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    body.light-mode .gallery-caption {
+      background: rgba(255, 248, 230, 0.9);
+      color: #333;
+    }
+
+    /* RSVP Section */
+    .rsvp-section {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 40px;
+      text-align: center;
+      background: rgba(13, 21, 48, 0.6);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+    }
+
+    body.light-mode .rsvp-section {
+      background: rgba(255, 248, 230, 0.9);
+    }
+
+    .rsvp-title {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    body.light-mode .rsvp-title {
+      color: #8b5a2b;
+    }
+
+    .rsvp-text {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .rsvp-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .rsvp-btn {
+      padding: 12px 30px;
+      border: 2px solid var(--primary-color);
+      background: var(--primary-color);
+      color: #080D1C;
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .rsvp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200, 169, 110, 0.4);
+    }
+
+    .rsvp-btn.not-attending {
+      background: transparent;
+      color: var(--primary-color);
+    }
+
+    body.light-mode .rsvp-btn {
+      background: #8b5a2b;
+      color: #fff;
+    }
+
+    body.light-mode .rsvp-btn.not-attending {
+      background: transparent;
+      color: #8b5a2b;
+    }
+
+    /* Language & Theme Controls */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .control-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--primary-color);
+      background: rgba(13, 21, 48, 0.8);
+      color: var(--primary-color);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(200, 169, 110, 0.3);
+    }
+
+    body.light-mode .control-btn {
+      background: rgba(255, 248, 230, 0.9);
+      border-color: #8b5a2b;
+      color: #8b5a2b;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .letter {
+        font-size: 60px;
+      }
+
+      .couple-name {
+        font-size: 32px;
+      }
+
+      .event-name {
+        font-size: 24px;
+      }
+
+      .event-details {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rsvp-buttons {
+        flex-direction: column;
+      }
+
+      .rsvp-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Controls -->
+  <div class="controls">
+    <button class="control-btn language-btn" id="languageBtn" title="Change Language">🌐</button>
+    <button class="control-btn theme-btn" id="themeBtn" title="Toggle Theme">☀️</button>
+  </div>
+
+  <!-- Main Content -->
+  <div id="app">
+    <p style="text-align: center; padding: 40px; color: var(--text-color);">Loading invitation...</p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/language-manager.js"></script>
+  <script src="js/data-loader.js"></script>
+  <script src="js/rendering-engine.js"></script>
+  <script src="js/theme-manager.js"></script>
+
+  <script>
+    /**
+     * Initialize application
+     */
+    async function initializeApp() {
+      try {
+        // Load configuration
+        const config = await dataLoader.loadConfig();
+        
+        if (!config) {
+          console.error('Failed to load configuration');
+          document.getElementById('app').innerHTML = '<p style="color: red;">Error loading configuration</p>';
+          return;
+        }
+
+        // Set language from saved preference or default
+        const savedLanguage = languageManager.loadLanguage();
+        if (savedLanguage) {
+          languageManager.setLanguage(savedLanguage);
+        }
+
+        // Initialize theme
+        await themeManager.initialize();
+
+        // Render invitation
+        await renderingEngine.render('app');
+
+        // Setup language switcher
+        setupLanguageSwitcher(config);
+
+        // Setup theme toggle
+        setupThemeToggle();
+
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        document.getElementById('app').innerHTML = '<p style="color: red;">Error initializing application</p>';
+      }
+    }
+
+    /**
+     * Setup language switcher
+     */
+    function setupLanguageSwitcher(config) {
+      const btn = document.getElementById('languageBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', async () => {
+        const currentLang = languageManager.currentLanguage;
+        const nextLang = currentLang === 'en' ? 'ta' : 'en';
+        
+        languageManager.setLanguage(nextLang);
+        
+        // Re-render
+        await renderingEngine.render('app');
+        
+        // Update button
+        btn.title = `Language: ${languageManager.getLanguageName(nextLang)}`;
+      });
+
+      btn.title = `Language: ${languageManager.getLanguageName(languageManager.currentLanguage)}`;
+    }
+
+    /**
+     * Setup theme toggle
+     */
+    function setupThemeToggle() {
+      const btn = document.getElementById('themeBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', () => {
+        themeManager.toggleDarkMode();
+        btn.innerHTML = themeManager.isDarkMode ? '☀️' : '🌙';
+        btn.title = themeManager.isDarkMode ? 'Switch to light mode' : 'Switch to dark mode';
+      });
+
+      btn.innerHTML = themeManager.isDarkMode ? '☀️' : '🌙';
+      btn.title = themeManager.isDarkMode ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+</body>
+</html>

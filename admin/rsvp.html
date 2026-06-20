@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP Manager - Phase 3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #f0f0f0;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .table-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f5f5f5;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      color: #666;
+      border-bottom: 2px solid #ddd;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-attending {
+      background: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    .status-not-attending {
+      background: #ffccbc;
+      color: #d84315;
+    }
+
+    .status-maybe {
+      background: #ffe0b2;
+      color: #e65100;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      margin: 0 2px;
+      border: none;
+      background: #667eea;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #5568d3;
+    }
+
+    .action-btn.delete {
+      background: #f44336;
+    }
+
+    .action-btn.delete:hover {
+      background: #da190b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      color: #667eea;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>✉️ RSVP Manager</h1>
+      <p>View and manage guest responses</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="total-rsvp">0</div>
+        <div class="stat-label">Total RSVPs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="attending-count">0</div>
+        <div class="stat-label">Attending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="not-attending-count">0</div>
+        <div class="stat-label">Not Attending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="total-guests">0</div>
+        <div class="stat-label">Total Guests</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search by name or phone..." onkeyup="filterRSVPs()">
+      </div>
+      <button class="btn btn-secondary" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="btn btn-secondary" onclick="printRSVPs()">🖨️ Print</button>
+      <button class="btn btn-primary" onclick="clearAllRSVPs()">🗑️ Clear All</button>
+    </div>
+
+    <div class="table-section">
+      <table id="rsvp-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Guests</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="rsvp-body">
+          <tr>
+            <td colspan="7" class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <p>No RSVPs yet</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RSVP Details Modal -->
+  <div id="rsvp-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>RSVP Details</h2>
+        <button class="modal-close" onclick="closeRSVPModal()">&times;</button>
+      </div>
+      <div id="rsvp-details"></div>
+    </div>
+  </div>
+
+  <script src="../js/rsvp-manager.js"></script>
+  <script>
+    async function initializeRSVP() {
+      await rsvpManager.initialize();
+      renderRSVPs();
+      updateStats();
+    }
+
+    function renderRSVPs() {
+      const rsvps = rsvpManager.getAllRSVPs();
+      const tbody = document.getElementById('rsvp-body');
+
+      if (rsvps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><div class="empty-state-icon">📭</div><p>No RSVPs yet</p></td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = rsvps.map((rsvp, index) => `
+        <tr>
+          <td>${rsvp.name}</td>
+          <td>${rsvp.phone}</td>
+          <td>${rsvp.guests}</td>
+          <td>${rsvp.message || '-'}</td>
+          <td>
+            <span class="status-badge status-${rsvp.attending ? 'attending' : 'not-attending'}">
+              ${rsvp.attending ? '✓ Attending' : '✕ Not Attending'}
+            </span>
+          </td>
+          <td>${new Date(rsvp.timestamp).toLocaleDateString()}</td>
+          <td>
+            <button class="action-btn" onclick="viewRSVP(${index})">View</button>
+            <button class="action-btn delete" onclick="deleteRSVP(${index})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function viewRSVP(index) {
+      const rsvp = rsvpManager.getRSVP(index);
+      const details = `
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" value="${rsvp.name}" disabled>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" value="${rsvp.phone}" disabled>
+        </div>
+        <div class="form-group">
+          <label>Number of Guests</label>
+          <input type="text" value="${rsvp.guests}" disabled>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <input type="text" value="${rsvp.attending ? 'Attending' : 'Not Attending'}" disabled>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea disabled>${rsvp.message || 'No message'}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Submitted</label>
+          <input type="text" value="${new Date(rsvp.timestamp).toLocaleString()}" disabled>
+        </div>
+      `;
+      document.getElementById('rsvp-details').innerHTML = details;
+      document.getElementById('rsvp-modal').classList.add('active');
+    }
+
+    function closeRSVPModal() {
+      document.getElementById('rsvp-modal').classList.remove('active');
+    }
+
+    function deleteRSVP(index) {
+      if (confirm('Delete this RSVP?')) {
+        rsvpManager.deleteRSVP(index);
+        renderRSVPs();
+        updateStats();
+      }
+    }
+
+    function filterRSVPs() {
+      const search = document.getElementById('search-input').value.toLowerCase();
+      const rows = document.querySelectorAll('#rsvp-body tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(search) ? '' : 'none';
+      });
+    }
+
+    function updateStats() {
+      const rsvps = rsvpManager.getAllRSVPs();
+      const stats = rsvpManager.getStats();
+
+      document.getElementById('total-rsvp').textContent = stats.total;
+      document.getElementById('attending-count').textContent = stats.attending;
+      document.getElementById('not-attending-count').textContent = stats.notAttending;
+      document.getElementById('total-guests').textContent = stats.totalGuests;
+    }
+
+    function exportCSV() {
+      const csv = rsvpManager.exportCSV();
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'rsvp-responses.csv';
+      a.click();
+    }
+
+    function printRSVPs() {
+      window.print();
+    }
+
+    function clearAllRSVPs() {
+      if (confirm('Delete all RSVPs? This cannot be undone.')) {
+        rsvpManager.clearAll();
+        renderRSVPs();
+        updateStats();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeRSVP);
+  </script>
+</body>
+</html>

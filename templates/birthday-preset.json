@@ -1,0 +1,22 @@
+{
+  "id": "birthday",
+  "name": { "en": "Birthday", "ta": "பிறந்த நாள்" },
+  "description": { "en": "Fun and colorful birthday template", "ta": "இரசனையான பிறந்த நாள் டெம்பிளேட்" },
+  "theme": {
+    "primary": "#FF6B6B",
+    "secondary": "#4ECDC4",
+    "accent": "#FFE66D",
+    "text": "#2C3E50",
+    "textLight": "#FFFFFF",
+    "background": "#F7F8FA",
+    "surface": "#FFFFFF",
+    "hero": "linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%)"
+  },
+  "fonts": {
+    "heading": "Comfortaa",
+    "body": "Lato",
+    "accent": "Fredoka One"
+  },
+  "preview": "assets/templates/birthday.png",
+  "createdAt": "2026-01-01T00:00:00Z"
+}

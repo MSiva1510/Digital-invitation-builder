@@ -1,0 +1,22 @@
+{
+  "id": "corporate",
+  "name": { "en": "Corporate", "ta": "கார்பாரேட்" },
+  "description": { "en": "Professional corporate event template", "ta": "தொழில்முறை கார்பாரேட் நிகழ்வு டெம்பிளேட்" },
+  "theme": {
+    "primary": "#0066CC",
+    "secondary": "#333333",
+    "accent": "#FF6600",
+    "text": "#1A1A1A",
+    "textLight": "#FFFFFF",
+    "background": "#F9F9F9",
+    "surface": "#FFFFFF",
+    "hero": "linear-gradient(135deg, #0066CC 0%, #003366 100%)"
+  },
+  "fonts": {
+    "heading": "Roboto",
+    "body": "Open Sans",
+    "accent": "Rubik"
+  },
+  "preview": "assets/templates/corporate.png",
+  "createdAt": "2026-01-01T00:00:00Z"
+}

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Manager - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      background: #D4AF37;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .admin-header h1 {
+      font-size: 28px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #D4AF37;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b8941e;
+    }
+
+    .btn-danger {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #da190b;
+    }
+
+    .btn-small {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .settings-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .settings-section h2 {
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-size: 18px;
+      border-bottom: 2px solid #D4AF37;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .checkbox-group input {
+      width: auto;
+    }
+
+    .player-preview {
+      background: #2c3e50;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .track-info {
+      margin-bottom: 15px;
+    }
+
+    .track-info-item {
+      font-size: 12px;
+      margin: 5px 0;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .control-btn {
+      background: #D4AF37;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .playlist-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .playlist-table th {
+      background: #f0f0f0;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .playlist-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .playlist-table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 5px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      font-size: 20px;
+      color: #D4AF37;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    @media (max-width: 768px) {
+      .playlist-table {
+        font-size: 12px;
+      }
+
+      .playlist-table th,
+      .playlist-table td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>🎵 Music Manager</h1>
+      <p>Manage background music and playlist</p>
+    </div>
+
+    <!-- Main Track Settings -->
+    <div class="settings-section">
+      <h2>Background Track</h2>
+      
+      <div class="form-group">
+        <label>Track URL</label>
+        <input type="url" id="track-url" placeholder="uploads/music/song.mp3">
+      </div>
+
+      <div class="form-group">
+        <label>Track Title (English)</label>
+        <input type="text" id="track-title-en" placeholder="e.g., Background Music">
+      </div>
+
+      <div class="form-group">
+        <label>Track Title (Tamil)</label>
+        <input type="text" id="track-title-ta" placeholder="e.g., பின்னணி இசை">
+      </div>
+
+      <div class="form-group">
+        <label>Artist (English)</label>
+        <input type="text" id="track-artist-en" placeholder="Artist Name">
+      </div>
+
+      <div class="form-group">
+        <label>Artist (Tamil)</label>
+        <input type="text" id="track-artist-ta" placeholder="கலைஞர் பெயர்">
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="music-enabled" checked>
+        <label>Enable Music</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="autoplay-enabled">
+        <label>Autoplay on Load</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="loop-enabled" checked>
+        <label>Loop Track</label>
+      </div>
+
+      <div class="form-group">
+        <label>Volume (0-100)</label>
+        <input type="range" id="volume-slider" min="0" max="100" value="70" onchange="updateVolume()">
+        <span id="volume-value">70%</span>
+      </div>
+
+      <div class="player-preview">
+        <div style="margin-bottom: 15px;">
+          <strong>Player Preview</strong>
+        </div>
+        <div class="track-info">
+          <div class="track-info-item"><strong>Title:</strong> <span id="preview-title">Background Music</span></div>
+          <div class="track-info-item"><strong>Artist:</strong> <span id="preview-artist">Artist Name</span></div>
+          <div class="track-info-item"><strong>Status:</strong> <span id="preview-status">Ready</span></div>
+        </div>
+        <div class="controls">
+          <button class="control-btn" onclick="togglePlayPreview()">▶ Play</button>
+          <button class="control-btn" onclick="mutePreview()">🔊 Mute</button>
+          <button class="control-btn" onclick="stopPreview()">⏹ Stop</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="saveTrack()">Save Track Settings</button>
+    </div>
+
+    <!-- Playlist Management -->
+    <div class="settings-section">
+      <h2>Playlist</h2>
+      <button class="btn btn-primary" onclick="openAddTrackModal()">+ Add Track to Playlist</button>
+
+      <table class="playlist-table" id="playlist-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="playlist-body">
+          <tr>
+            <td colspan="3" style="text-align: center; padding: 20px; color: #999;">No tracks in playlist</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add Track Modal -->
+  <div id="track-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Track to Playlist</h2>
+        <button class="modal-close" onclick="closeTrackModal()">&times;</button>
+      </div>
+
+      <form id="track-form">
+        <div class="form-group">
+          <label>Track URL</label>
+          <input type="url" id="new-track-url" required>
+        </div>
+
+        <div class="form-group">
+          <label>Track Title (English)</label>
+          <input type="text" id="new-track-title-en" required>
+        </div>
+
+        <div class="form-group">
+          <label>Track Title (Tamil)</label>
+          <input type="text" id="new-track-title-ta">
+        </div>
+
+        <div class="form-group">
+          <label>Duration (seconds)</label>
+          <input type="number" id="new-track-duration" value="180">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeTrackModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Track</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/language-manager.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/music-manager.js"></script>
+
+  <script>
+    async function initializeMusic() {
+      await musicManager.initialize();
+      loadMusicSettings();
+      renderPlaylist();
+    }
+
+    function loadMusicSettings() {
+      const music = musicManager.getMusic();
+      
+      if (music.track) {
+        document.getElementById('track-url').value = music.track.url;
+        document.getElementById('track-title-en').value = music.track.title?.en || '';
+        document.getElementById('track-title-ta').value = music.track.title?.ta || '';
+        document.getElementById('track-artist-en').value = music.track.artist?.en || '';
+        document.getElementById('track-artist-ta').value = music.track.artist?.ta || '';
+      }
+
+      document.getElementById('music-enabled').checked = music.enabled;
+      document.getElementById('autoplay-enabled').checked = music.autoplay;
+      document.getElementById('loop-enabled').checked = music.loop;
+      document.getElementById('volume-slider').value = (music.volume || 0.7) * 100;
+      document.getElementById('volume-value').textContent = ((music.volume || 0.7) * 100).toFixed(0) + '%';
+
+      updatePreview();
+    }
+
+    function renderPlaylist() {
+      const music = musicManager.getMusic();
+      const tbody = document.getElementById('playlist-body');
+
+      if (!music.playlist || music.playlist.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #999;">No tracks in playlist</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = music.playlist.map((track, index) => `
+        <tr>
+          <td>${track.title.en}</td>
+          <td>${formatTime(track.duration)}</td>
+          <td class="actions-cell">
+            <button class="btn btn-small" onclick="deleteTrack(${index})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateVolume() {
+      const value = document.getElementById('volume-slider').value;
+      document.getElementById('volume-value').textContent = value + '%';
+    }
+
+    function saveTrack() {
+      const music = musicManager.getMusic();
+      
+      music.track = {
+        url: document.getElementById('track-url').value,
+        title: {
+          en: document.getElementById('track-title-en').value,
+          ta: document.getElementById('track-title-ta').value
+        },
+        artist: {
+          en: document.getElementById('track-artist-en').value,
+          ta: document.getElementById('track-artist-ta').value
+        }
+      };
+
+      music.enabled = document.getElementById('music-enabled').checked;
+      music.autoplay = document.getElementById('autoplay-enabled').checked;
+      music.loop = document.getElementById('loop-enabled').checked;
+      music.volume = document.getElementById('volume-slider').value / 100;
+
+      musicManager.importMusic(JSON.stringify(music));
+      alert('Music settings saved!');
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const music = musicManager.getMusic();
+      if (music.track) {
+        document.getElementById('preview-title').textContent = music.track.title?.en || 'Track';
+        document.getElementById('preview-artist').textContent = music.track.artist?.en || 'Artist';
+      }
+    }
+
+    function openAddTrackModal() {
+      document.getElementById('track-form').reset();
+      document.getElementById('track-modal').classList.add('active');
+    }
+
+    function closeTrackModal() {
+      document.getElementById('track-modal').classList.remove('active');
+    }
+
+    document.getElementById('track-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const trackData = {
+        url: document.getElementById('new-track-url').value,
+        title: {
+          en: document.getElementById('new-track-title-en').value,
+          ta: document.getElementById('new-track-title-ta').value
+        },
+        duration: parseInt(document.getElementById('new-track-duration').value)
+      };
+
+      musicManager.addTrack(trackData);
+      renderPlaylist();
+      closeTrackModal();
+    });
+
+    function deleteTrack(index) {
+      if (confirm('Delete this track?')) {
+        musicManager.removeTrack(index);
+        renderPlaylist();
+      }
+    }
+
+    function togglePlayPreview() {
+      const status = document.getElementById('preview-status');
+      status.textContent = status.textContent === 'Playing' ? 'Paused' : 'Playing';
+    }
+
+    function mutePreview() {
+      // Mute preview logic
+    }
+
+    function stopPreview() {
+      document.getElementById('preview-status').textContent = 'Stopped';
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeMusic);
+  </script>
+</body>
+</html>

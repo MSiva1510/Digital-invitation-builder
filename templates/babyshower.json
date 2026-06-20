@@ -1,0 +1,40 @@
+{
+  "eventType": "babyshower",
+  "template": {
+    "name": { "en": "Baby Shower Invitation", "ta": "குழந்தை குளியல் அழைப்பு" },
+    "description": { "en": "A joyful baby shower invitation template", "ta": "ஒரு மகிழ்ச்சியான குழந்தை குளியல் அழைப்பு டெம்பிளேட்" },
+    "fields": [
+      {
+        "id": "mother",
+        "label": { "en": "Mother Name", "ta": "தாய் பெயர்" },
+        "type": "multiLanguage"
+      },
+      {
+        "id": "expectedDate",
+        "label": { "en": "Expected Date of Birth", "ta": "பிறப்பு எதிர்பார்க்கப்பட்ட தேதி" },
+        "type": "date"
+      },
+      {
+        "id": "mainEvent",
+        "label": { "en": "Baby Shower Details", "ta": "குழந்தை குளியல் விவரங்கள்" },
+        "type": "object",
+        "fields": [
+          { "id": "name", "label": { "en": "Event Name", "ta": "நிகழ்வு பெயர்" }, "type": "multiLanguage" },
+          { "id": "date", "label": { "en": "Date", "ta": "தேதி" }, "type": "date" },
+          { "id": "time", "label": { "en": "Time", "ta": "நேரம்" }, "type": "time" },
+          {
+            "id": "venue",
+            "label": { "en": "Venue", "ta": "வேண்டுக்களம்" },
+            "type": "object",
+            "fields": [
+              { "id": "name", "label": { "en": "Venue Name", "ta": "வேண்டுக்களம் பெயர்" }, "type": "multiLanguage" },
+              { "id": "address", "label": { "en": "Address", "ta": "முகவரி" }, "type": "multiLanguage" },
+              { "id": "googleMapsUrl", "label": { "en": "Google Maps URL", "ta": "Google Maps URL" }, "type": "url" }
+            ]
+          },
+          { "id": "description", "label": { "en": "Description", "ta": "விளக்கம்" }, "type": "multiLanguage" }
+        ]
+      }
+    ]
+  }
+}

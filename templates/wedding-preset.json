@@ -1,0 +1,22 @@
+{
+  "id": "wedding",
+  "name": { "en": "Wedding", "ta": "திருமணம்" },
+  "description": { "en": "Elegant wedding invitation template", "ta": "நாகரிக திருமண அழைப்பு டெம்பிளேட்" },
+  "theme": {
+    "primary": "#D4AF37",
+    "secondary": "#FFFFFF",
+    "accent": "#8B4513",
+    "text": "#333333",
+    "textLight": "#FFFFFF",
+    "background": "#F5F5F5",
+    "surface": "#FFFFFF",
+    "hero": "linear-gradient(135deg, #D4AF37 0%, #8B4513 100%)"
+  },
+  "fonts": {
+    "heading": "Poppins",
+    "body": "Lato",
+    "accent": "Great Vibes"
+  },
+  "preview": "assets/templates/wedding.png",
+  "createdAt": "2026-01-01T00:00:00Z"
+}

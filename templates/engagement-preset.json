@@ -1,0 +1,22 @@
+{
+  "id": "engagement",
+  "name": { "en": "Engagement", "ta": "நிச்சயதார்த்தம்" },
+  "description": { "en": "Romantic engagement invitation template", "ta": "காதல் நிச்சயதார்த்த அழைப்பு டெம்பிளேட்" },
+  "theme": {
+    "primary": "#E91E63",
+    "secondary": "#FFC0CB",
+    "accent": "#C2185B",
+    "text": "#4A4A4A",
+    "textLight": "#FFFFFF",
+    "background": "#FDF7F9",
+    "surface": "#FFFFFF",
+    "hero": "linear-gradient(135deg, #E91E63 0%, #C2185B 100%)"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "body": "Lato",
+    "accent": "Dancing Script"
+  },
+  "preview": "assets/templates/engagement.png",
+  "createdAt": "2026-01-01T00:00:00Z"
+}

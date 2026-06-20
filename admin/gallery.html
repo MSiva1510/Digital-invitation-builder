@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Manager - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      background: #D4AF37;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-header h1 {
+      font-size: 28px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #D4AF37;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b8941e;
+    }
+
+    .upload-section {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border: 2px dashed #D4AF37;
+    }
+
+    .upload-area {
+      text-align: center;
+      padding: 40px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+      border-color: #D4AF37;
+      background: #f9f9f9;
+    }
+
+    .upload-area.dragover {
+      background: #f0f0f0;
+      border-color: #D4AF37;
+    }
+
+    .upload-area-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .upload-area p {
+      color: #666;
+      margin: 10px 0;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .gallery-item {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .gallery-item-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #f0f0f0;
+    }
+
+    .gallery-item-info {
+      padding: 15px;
+    }
+
+    .gallery-item-caption {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .gallery-item-actions {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 11px;
+      flex: 1;
+      min-width: 50px;
+    }
+
+    .btn-danger {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #da190b;
+    }
+
+    .gallery-settings {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .settings-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .settings-row label {
+      min-width: 150px;
+      font-weight: 500;
+    }
+
+    .settings-row input,
+    .settings-row select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+      background: white;
+      border-radius: 8px;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .settings-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div>
+        <h1>🖼️ Gallery Manager</h1>
+        <p>Manage invitation gallery images</p>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <h2 style="margin-bottom: 20px;">Upload Images</h2>
+      <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+        <div class="upload-area-icon">📸</div>
+        <p><strong>Click to upload</strong> or drag and drop</p>
+        <p style="font-size: 12px;">PNG, JPG, WEBP (max 10MB)</p>
+      </div>
+      <input id="file-input" type="file" multiple accept="image/*">
+    </div>
+
+    <div class="gallery-settings">
+      <h2 style="margin-bottom: 20px;">Gallery Settings</h2>
+      <div class="settings-row">
+        <label>Enable Gallery</label>
+        <input type="checkbox" id="gallery-enabled" checked onchange="updateSettings()">
+      </div>
+      <div class="settings-row">
+        <label>Enable Lightbox</label>
+        <input type="checkbox" id="lightbox-enabled" checked onchange="updateSettings()">
+      </div>
+      <div class="settings-row">
+        <label>Show Captions</label>
+        <input type="checkbox" id="captions-enabled" checked onchange="updateSettings()">
+      </div>
+      <div class="settings-row">
+        <label>Columns</label>
+        <select id="columns" onchange="updateSettings()">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 style="margin-bottom: 20px;">Gallery Images</h2>
+    <div id="gallery-grid" class="gallery-grid">
+      <!-- Images will be populated here -->
+    </div>
+  </div>
+
+  <script src="../js/language-manager.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/gallery-builder.js"></script>
+
+  <script>
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+
+    // Drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageData = {
+            url: e.target.result,
+            caption: { en: file.name, ta: file.name },
+            type: file.type.split('/')[1]
+          };
+          galleryBuilder.addImage(imageData);
+          renderGallery();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderGallery() {
+      const gallery = galleryBuilder.getGallery();
+      const container = document.getElementById('gallery-grid');
+
+      if (!gallery.images || gallery.images.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <p>No images yet. Upload your first image!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = gallery.images.map((image, index) => `
+        <div class="gallery-item">
+          <img src="${image.url}" alt="" class="gallery-item-image">
+          <div class="gallery-item-info">
+            <div class="gallery-item-caption">${image.caption?.en || 'Image'}</div>
+            <div class="gallery-item-actions">
+              <button class="btn btn-small" onclick="moveImageUp(${image.id})" ${index === 0 ? 'disabled' : ''}>↑</button>
+              <button class="btn btn-small" onclick="moveImageDown(${image.id})" ${index === gallery.images.length - 1 ? 'disabled' : ''}>↓</button>
+              <button class="btn btn-small btn-danger" onclick="deleteImage(${image.id})">×</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function deleteImage(imageId) {
+      if (confirm('Delete this image?')) {
+        galleryBuilder.removeImage(imageId);
+        renderGallery();
+      }
+    }
+
+    function moveImageUp(imageId) {
+      galleryBuilder.moveImageUp(imageId);
+      renderGallery();
+    }
+
+    function moveImageDown(imageId) {
+      galleryBuilder.moveImageDown(imageId);
+      renderGallery();
+    }
+
+    function updateSettings() {
+      galleryBuilder.updateSettings({
+        enableLightbox: document.getElementById('lightbox-enabled').checked,
+        enableCaptions: document.getElementById('captions-enabled').checked,
+        columns: parseInt(document.getElementById('columns').value)
+      });
+      galleryBuilder.toggleGallery(document.getElementById('gallery-enabled').checked);
+    }
+
+    async function initializeGallery() {
+      await galleryBuilder.initialize();
+      document.getElementById('gallery-enabled').checked = galleryBuilder.galleryData.enabled;
+      document.getElementById('lightbox-enabled').checked = galleryBuilder.galleryData.settings?.enableLightbox !== false;
+      document.getElementById('captions-enabled').checked = galleryBuilder.galleryData.settings?.enableCaptions !== false;
+      document.getElementById('columns').value = galleryBuilder.galleryData.settings?.columns || 3;
+      renderGallery();
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeGallery);
+  </script>
+</body>
+</html>

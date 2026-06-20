@@ -1,0 +1,82 @@
+{
+  "sections": [
+    {
+      "id": "section-hero",
+      "type": "hero",
+      "visible": true,
+      "settings": {
+        "title": "true",
+        "subtitle": "true",
+        "image": "true",
+        "fullHeight": "true",
+        "parallax": "false"
+      }
+    },
+    {
+      "id": "section-countdown",
+      "type": "countdown",
+      "visible": true,
+      "settings": {
+        "show_label": "true",
+        "show_progress": "false",
+        "format": "detailed"
+      }
+    },
+    {
+      "id": "section-events",
+      "type": "events",
+      "visible": true,
+      "settings": {
+        "columns": "2",
+        "show_description": "true",
+        "show_map": "true"
+      }
+    },
+    {
+      "id": "section-gallery",
+      "type": "gallery",
+      "visible": true,
+      "settings": {
+        "columns": "3",
+        "enable_lightbox": "true",
+        "show_captions": "true",
+        "spacing": "10"
+      }
+    },
+    {
+      "id": "section-music",
+      "type": "music",
+      "visible": true,
+      "settings": {
+        "autoplay": "false",
+        "show_playlist": "true",
+        "show_controls": "true"
+      }
+    },
+    {
+      "id": "section-rsvp",
+      "type": "rsvp",
+      "visible": true,
+      "settings": {
+        "show_message": "true",
+        "required_fields": "name,phone",
+        "show_guestcount": "true"
+      }
+    },
+    {
+      "id": "section-footer",
+      "type": "footer",
+      "visible": true,
+      "settings": {
+        "show_credits": "true",
+        "show_social": "false"
+      }
+    }
+  ],
+  "settings": {
+    "responsive": true,
+    "animateOnScroll": true,
+    "darkMode": false
+  },
+  "lastUpdated": "2026-06-16T00:00:00Z"
+}

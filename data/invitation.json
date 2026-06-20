@@ -1,0 +1,84 @@
+{
+  "eventId": "rn-wedding-2026",
+  "eventType": "wedding",
+  "couple": {
+    "firstName": { "en": "Ramanan", "ta": "ரமணன்" },
+    "secondName": { "en": "Nandhini", "ta": "நந்தினி" },
+    "monogramFirst": "R",
+    "monogramSecond": "N"
+  },
+  "mainEvent": {
+    "name": { "en": "Wedding Ceremony", "ta": "திருமண விழா" },
+    "date": "2026-07-06",
+    "time": "18:00",
+    "meridiem": "PM",
+    "venue": {
+      "name": { "en": "Sri Durga Kalyana Mandapam", "ta": "ஸ்ரீ துர்கா கல்யாண மண்டபம்" },
+      "address": { "en": "Ariyankuppam, Puducherry, India", "ta": "அரியங்குப்பம், புதுச்சேரி, இந்தியா" },
+      "googleMapsUrl": "https://maps.google.com/?q=Ariyankuppam,Puducherry"
+    },
+    "description": { "en": "Join us for a blessed matrimonial union", "ta": "எங்கள் திருமணத்திற்கு உங்களை அழைக்கிறோம்" }
+  },
+  "events": [
+    {
+      "id": "main-ceremony",
+      "name": { "en": "Wedding Ceremony", "ta": "திருமண விழா" },
+      "date": "2026-07-06",
+      "time": "18:00",
+      "meridiem": "PM",
+      "venue": {
+        "name": { "en": "Sri Durga Kalyana Mandapam", "ta": "ஸ்ரீ துர்கா கல்யாண மண்டபம்" },
+        "address": { "en": "Ariyankuppam, Puducherry, India", "ta": "அரியங்குப்பம், புதுச்சேரி, இந்தியா" },
+        "googleMapsUrl": "https://maps.google.com/?q=Ariyankuppam,Puducherry"
+      },
+      "description": { "en": "The main wedding ceremony", "ta": "முக்கிய திருமண விழா" }
+    },
+    {
+      "id": "reception",
+      "name": { "en": "Wedding Reception", "ta": "திருமண விருந்து" },
+      "date": "2026-07-06",
+      "time": "20:00",
+      "meridiem": "PM",
+      "venue": {
+        "name": { "en": "Sri Durga Kalyana Mandapam", "ta": "ஸ்ரீ துர்கா கல்யாண மண்டபம்" },
+        "address": { "en": "Ariyankuppam, Puducherry, India", "ta": "அரியங்குப்பம், புதுச்சேரி, இந்தியா" },
+        "googleMapsUrl": "https://maps.google.com/?q=Ariyankuppam,Puducherry"
+      },
+      "description": { "en": "Join us for dinner and celebration", "ta": "விருந்து மற்றும் கொண்டாட்டத்தில் சேர்ந்து கொள்ளுங்கள்" }
+    }
+  ],
+  "gallery": {
+    "enabled": true,
+    "images": [
+      { "url": "images/image1.jpeg", "caption": { "en": "Pre-wedding", "ta": "திருமணத்திற்கு முன்" }, "type": "jpg" },
+      { "url": "images/image2.jpg", "caption": { "en": "Moments", "ta": "கணங்கள்" }, "type": "jpg" },
+      { "url": "images/image3.jpg", "caption": { "en": "Memories", "ta": "நினைவுகள்" }, "type": "jpg" },
+      { "url": "images/image4.jpg", "caption": { "en": "Together", "ta": "ஒன்றாக" }, "type": "jpg" },
+      { "url": "images/image5.jpg", "caption": { "en": "Love Story", "ta": "காதல் கதை" }, "type": "jpg" }
+    ]
+  },
+  "music": {
+    "enabled": true,
+    "audioUrl": "audio.mp3",
+    "autoplay": false,
+    "loop": true
+  },
+  "theme": {
+    "colors": {
+      "primary": "#C8A96E",
+      "secondary": "#D4849A",
+      "background": "#080D1C",
+      "surface": "#0D1530",
+      "text": "#F2DFA0"
+    },
+    "fonts": {
+      "heading": "'Playfair Display', serif",
+      "body": "'Cormorant Garamond', serif",
+      "accent": "'Great Vibes', cursive"
+    },
+    "backgroundImage": ""
+  },
+  "language": "en",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "updatedAt": "2026-06-01T00:00:00Z"
+}

@@ -1,0 +1,64 @@
+{
+  "adminPassword": "change-me",
+  "siteTitle": "Digital Invitation",
+  "siteDescription": "Create beautiful digital invitations",
+  "authentication": {
+    "enabled": true,
+    "passwordRequired": true,
+    "sessionDuration": 1800000,
+    "rememberMe": true,
+    "rememberMeDuration": 604800000
+  },
+  "features": {
+    "mediaManager": true,
+    "pageBuilder": true,
+    "rsvpSystem": true,
+    "qrCode": true,
+    "whatsappSharing": true,
+    "importExport": true,
+    "seoOptimization": true,
+    "publishWorkflow": true
+  },
+  "security": {
+    "https": true,
+    "contentSecurityPolicy": true,
+    "xFrameOptions": "SAMEORIGIN"
+  },
+  "seo": {
+    "enabled": true,
+    "generateMetaTags": true,
+    "generateStructuredData": true,
+    "sitemap": true,
+    "robotsTxt": true
+  },
+  "sharing": {
+    "whatsapp": true,
+    "facebook": false,
+    "twitter": false,
+    "email": true,
+    "directLink": true
+  },
+  "backup": {
+    "autoBackup": true,
+    "backupFrequency": 86400000,
+    "maxBackups": 5
+  },
+  "analytics": {
+    "trackViews": false,
+    "trackShares": true,
+    "trackRSVPs": true,
+    "privacyMode": true
+  },
+  "theme": {
+    "darkMode": true,
+    "lightMode": true,
+    "defaultMode": "light"
+  },
+  "notifications": {
+    "emailNotifications": false,
+    "smsNotifications": false,
+    "inAppNotifications": true
+  },
+  "updatedAt": "2026-06-16T00:00:00Z",
+  "version": "3.0.0"
+}

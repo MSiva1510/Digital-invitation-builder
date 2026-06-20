@@ -1,0 +1,40 @@
+{
+  "eventType": "birthday",
+  "template": {
+    "name": { "en": "Birthday Invitation", "ta": "பிறந்த நாள் அழைப்பு" },
+    "description": { "en": "A fun birthday invitation template", "ta": "ஒரு재미있는 பிறந்த நாள் அழைப்பு டெம்பிளேட்" },
+    "fields": [
+      {
+        "id": "celebrant",
+        "label": { "en": "Celebrant Name", "ta": "கொண்டாட்ட ஆள் பெயர்" },
+        "type": "multiLanguage"
+      },
+      {
+        "id": "age",
+        "label": { "en": "Age", "ta": "வயது" },
+        "type": "number"
+      },
+      {
+        "id": "mainEvent",
+        "label": { "en": "Birthday Party Details", "ta": "பிறந்த நாள் விழா விவரங்கள்" },
+        "type": "object",
+        "fields": [
+          { "id": "name", "label": { "en": "Event Name", "ta": "நிகழ்வு பெயர்" }, "type": "multiLanguage" },
+          { "id": "date", "label": { "en": "Date", "ta": "தேதி" }, "type": "date" },
+          { "id": "time", "label": { "en": "Time", "ta": "நேரம்" }, "type": "time" },
+          {
+            "id": "venue",
+            "label": { "en": "Venue", "ta": "வேண்டுக்களம்" },
+            "type": "object",
+            "fields": [
+              { "id": "name", "label": { "en": "Venue Name", "ta": "வேண்டுக்களம் பெயர்" }, "type": "multiLanguage" },
+              { "id": "address", "label": { "en": "Address", "ta": "முகவரி" }, "type": "multiLanguage" },
+              { "id": "googleMapsUrl", "label": { "en": "Google Maps URL", "ta": "Google Maps URL" }, "type": "url" }
+            ]
+          },
+          { "id": "description", "label": { "en": "Description", "ta": "விளக்கம்" }, "type": "multiLanguage" }
+        ]
+      }
+    ]
+  }
+}

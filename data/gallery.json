@@ -1,0 +1,38 @@
+{
+  "enabled": true,
+  "title": {
+    "en": "Our Gallery",
+    "ta": "எங்கள் திரட்டு"
+  },
+  "images": [
+    {
+      "id": 1,
+      "url": "uploads/images/image1.jpg",
+      "caption": { "en": "Photo 1", "ta": "ஃபோட்டோ 1" },
+      "type": "jpg",
+      "thumbnail": "uploads/images/thumb1.jpg"
+    },
+    {
+      "id": 2,
+      "url": "uploads/images/image2.jpg",
+      "caption": { "en": "Photo 2", "ta": "ஃபோட்டோ 2" },
+      "type": "jpg",
+      "thumbnail": "uploads/images/thumb2.jpg"
+    },
+    {
+      "id": 3,
+      "url": "uploads/images/image3.jpg",
+      "caption": { "en": "Photo 3", "ta": "ஃபோட்டோ 3" },
+      "type": "jpg",
+      "thumbnail": "uploads/images/thumb3.jpg"
+    }
+  ],
+  "settings": {
+    "columns": 3,
+    "spacing": 10,
+    "enableLightbox": true,
+    "enableCaptions": true
+  },
+  "createdAt": "2026-06-01T00:00:00Z",
+  "updatedAt": "2026-06-01T00:00:00Z"
+}

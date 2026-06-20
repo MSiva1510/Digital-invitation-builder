@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Manager - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      background: #D4AF37;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .admin-header h1 {
+      font-size: 28px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #D4AF37;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #b8941e;
+    }
+
+    .btn-danger {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #da190b;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .theme-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .theme-section h2 {
+      color: #D4AF37;
+      margin-bottom: 20px;
+      font-size: 18px;
+      border-bottom: 2px solid #D4AF37;
+      padding-bottom: 10px;
+    }
+
+    .color-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    .color-input-group label {
+      min-width: 100px;
+      font-weight: 500;
+    }
+
+    .color-input {
+      width: 60px;
+      height: 40px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .color-value {
+      flex: 1;
+      font-family: monospace;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .font-input-group {
+      margin-bottom: 15px;
+    }
+
+    .font-input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .font-input-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .preview-box {
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .preview-heading {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .preview-body {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .palette-item {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .palette-item:hover {
+      transform: scale(1.05);
+    }
+
+    .palette-item.active {
+      border-color: white;
+      box-shadow: 0 0 0 3px white, 0 0 0 5px #333;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .action-buttons button {
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      .theme-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .palette-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>🎨 Theme Manager</h1>
+      <p>Customize colors, fonts, and styling</p>
+    </div>
+
+    <div class="theme-grid">
+      <!-- Colors Section -->
+      <div class="theme-section">
+        <h2>Colors</h2>
+        
+        <div class="color-input-group">
+          <label>Primary</label>
+          <input type="color" id="primary-color" class="color-input" onchange="updateTheme()">
+          <span class="color-value" id="primary-value">#D4AF37</span>
+        </div>
+
+        <div class="color-input-group">
+          <label>Secondary</label>
+          <input type="color" id="secondary-color" class="color-input" onchange="updateTheme()">
+          <span class="color-value" id="secondary-value">#FFFFFF</span>
+        </div>
+
+        <div class="color-input-group">
+          <label>Accent</label>
+          <input type="color" id="accent-color" class="color-input" onchange="updateTheme()">
+          <span class="color-value" id="accent-value">#8B4513</span>
+        </div>
+
+        <div class="color-input-group">
+          <label>Text</label>
+          <input type="color" id="text-color" class="color-input" onchange="updateTheme()">
+          <span class="color-value" id="text-value">#333333</span>
+        </div>
+
+        <div class="color-input-group">
+          <label>Background</label>
+          <input type="color" id="background-color" class="color-input" onchange="updateTheme()">
+          <span class="color-value" id="background-value">#F5F5F5</span>
+        </div>
+      </div>
+
+      <!-- Fonts Section -->
+      <div class="theme-section">
+        <h2>Typography</h2>
+        
+        <div class="font-input-group">
+          <label>Heading Font</label>
+          <select id="heading-font" onchange="updateTheme()">
+            <option>Poppins</option>
+            <option>Playfair Display</option>
+            <option>Roboto</option>
+            <option>Lora</option>
+            <option>Montserrat</option>
+          </select>
+        </div>
+
+        <div class="font-input-group">
+          <label>Body Font</label>
+          <select id="body-font" onchange="updateTheme()">
+            <option>Lato</option>
+            <option>Open Sans</option>
+            <option>Roboto</option>
+            <option>Source Sans Pro</option>
+            <option>Ubuntu</option>
+          </select>
+        </div>
+
+        <div class="font-input-group">
+          <label>Accent Font</label>
+          <select id="accent-font" onchange="updateTheme()">
+            <option>Great Vibes</option>
+            <option>Dancing Script</option>
+            <option>Pacifico</option>
+            <option>Caveat</option>
+            <option>Fredoka One</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Preset Palettes -->
+      <div class="theme-section">
+        <h2>Preset Palettes</h2>
+        
+        <div class="palette-grid" id="palette-grid">
+          <!-- Palettes will be populated here -->
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="saveTheme()">Save Theme</button>
+          <button class="btn btn-danger" onclick="resetTheme()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="theme-section" style="margin-bottom: 30px;">
+      <h2>Live Preview</h2>
+      <div id="preview-box" class="preview-box">
+        <div class="preview-heading">Sample Heading</div>
+        <div class="preview-body">This is how your invitation will look with the current theme.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/language-manager.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/theme-engine.js"></script>
+
+  <script>
+    const presetPalettes = [
+      { name: 'Gold', colors: { primary: '#D4AF37', secondary: '#FFFFFF', accent: '#8B4513' } },
+      { name: 'Rose', colors: { primary: '#E91E63', secondary: '#FFC0CB', accent: '#C2185B' } },
+      { name: 'Ocean', colors: { primary: '#0066CC', secondary: '#ADD8E6', accent: '#004B9E' } },
+      { name: 'Forest', colors: { primary: '#228B22', secondary: '#90EE90', accent: '#006400' } },
+      { name: 'Sunset', colors: { primary: '#FF6B35', secondary: '#FFD700', accent: '#FF4500' } },
+      { name: 'Purple', colors: { primary: '#9C27B0', secondary: '#E1BEE7', accent: '#6A1B9A' } }
+    ];
+
+    async function initializeThemeManager() {
+      await themeEngine.initialize();
+      loadThemeValues();
+      renderPalettes();
+      updatePreview();
+    }
+
+    function loadThemeValues() {
+      const theme = themeEngine.getTheme();
+      
+      document.getElementById('primary-color').value = theme.primary;
+      document.getElementById('primary-value').textContent = theme.primary;
+      
+      document.getElementById('secondary-color').value = theme.secondary;
+      document.getElementById('secondary-value').textContent = theme.secondary;
+      
+      document.getElementById('accent-color').value = theme.accent;
+      document.getElementById('accent-value').textContent = theme.accent;
+      
+      document.getElementById('text-color').value = theme.text;
+      document.getElementById('text-value').textContent = theme.text;
+      
+      document.getElementById('background-color').value = theme.background;
+      document.getElementById('background-value').textContent = theme.background;
+
+      if (theme.fonts) {
+        document.getElementById('heading-font').value = theme.fonts.heading || 'Poppins';
+        document.getElementById('body-font').value = theme.fonts.body || 'Lato';
+        document.getElementById('accent-font').value = theme.fonts.accent || 'Great Vibes';
+      }
+    }
+
+    function renderPalettes() {
+      const container = document.getElementById('palette-grid');
+      container.innerHTML = presetPalettes.map(palette => `
+        <div class="palette-item" style="background: linear-gradient(135deg, ${palette.colors.primary} 0%, ${palette.colors.accent} 100%);" 
+             onclick="applyPalette('${palette.colors.primary}', '${palette.colors.secondary}', '${palette.colors.accent}')">
+          ${palette.name}
+        </div>
+      `).join('');
+    }
+
+    function applyPalette(primary, secondary, accent) {
+      document.getElementById('primary-color').value = primary;
+      document.getElementById('secondary-color').value = secondary;
+      document.getElementById('accent-color').value = accent;
+      updateTheme();
+    }
+
+    function updateTheme() {
+      const primary = document.getElementById('primary-color').value;
+      const secondary = document.getElementById('secondary-color').value;
+      const accent = document.getElementById('accent-color').value;
+      const text = document.getElementById('text-color').value;
+      const background = document.getElementById('background-color').value;
+
+      document.getElementById('primary-value').textContent = primary;
+      document.getElementById('secondary-value').textContent = secondary;
+      document.getElementById('accent-value').textContent = accent;
+      document.getElementById('text-value').textContent = text;
+      document.getElementById('background-value').textContent = background;
+
+      themeEngine.updateColors({
+        primary, secondary, accent, text, background
+      });
+
+      themeEngine.updateFonts({
+        heading: document.getElementById('heading-font').value,
+        body: document.getElementById('body-font').value,
+        accent: document.getElementById('accent-font').value
+      });
+
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const preview = document.getElementById('preview-box');
+      const theme = themeEngine.getTheme();
+      
+      preview.style.background = theme.background;
+      preview.style.color = theme.text;
+      preview.querySelector('.preview-heading').style.color = theme.primary;
+    }
+
+    function saveTheme() {
+      themeEngine.saveTheme();
+      alert('Theme saved successfully!');
+    }
+
+    function resetTheme() {
+      if (confirm('Reset theme to default?')) {
+        themeEngine.resetTheme();
+        loadThemeValues();
+        updatePreview();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeThemeManager);
+  </script>
+</body>
+</html>

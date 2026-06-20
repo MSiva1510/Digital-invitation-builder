@@ -1,0 +1,39 @@
+{
+  "eventType": "engagement",
+  "template": {
+    "name": { "en": "Engagement Invitation", "ta": "நிश்சயதார்த்த அழைப்பு" },
+    "description": { "en": "A elegant engagement invitation template", "ta": "ஒரு நாகரிக நிश்சயதார்த்த அழைப்பு டெம்பிளேட்" },
+    "fields": [
+      {
+        "id": "couple",
+        "label": { "en": "Couple Names", "ta": "தம்பதியின் பெயர்கள்" },
+        "type": "object",
+        "fields": [
+          { "id": "firstName", "label": { "en": "Groom Name", "ta": "மணவாளன் பெயர்" }, "type": "multiLanguage" },
+          { "id": "secondName", "label": { "en": "Bride Name", "ta": "மணவாட்டை பெயர்" }, "type": "multiLanguage" }
+        ]
+      },
+      {
+        "id": "mainEvent",
+        "label": { "en": "Engagement Details", "ta": "நிश்சயதார்த்த விவரங்கள்" },
+        "type": "object",
+        "fields": [
+          { "id": "name", "label": { "en": "Event Name", "ta": "நிகழ்வு பெயர்" }, "type": "multiLanguage" },
+          { "id": "date", "label": { "en": "Date", "ta": "தேதி" }, "type": "date" },
+          { "id": "time", "label": { "en": "Time", "ta": "நேரம்" }, "type": "time" },
+          {
+            "id": "venue",
+            "label": { "en": "Venue", "ta": "வேண்டுக்களம்" },
+            "type": "object",
+            "fields": [
+              { "id": "name", "label": { "en": "Venue Name", "ta": "வேண்டுக்களம் பெயர்" }, "type": "multiLanguage" },
+              { "id": "address", "label": { "en": "Address", "ta": "முகவரி" }, "type": "multiLanguage" },
+              { "id": "googleMapsUrl", "label": { "en": "Google Maps URL", "ta": "Google Maps URL" }, "type": "url" }
+            ]
+          },
+          { "id": "description", "label": { "en": "Description", "ta": "விளக்கம்" }, "type": "multiLanguage" }
+        ]
+      }
+    ]
+  }
+}

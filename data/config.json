@@ -1,0 +1,54 @@
+{
+  "appName": "Digital Invitation Builder",
+  "appVersion": "1.0.0",
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en", "ta"],
+  "languages": {
+    "en": "English",
+    "ta": "தமிழ்"
+  },
+  "eventTypes": [
+    {
+      "id": "wedding",
+      "name": { "en": "Wedding", "ta": "திருமணம்" }
+    },
+    {
+      "id": "engagement",
+      "name": { "en": "Engagement", "ta": "நிশ்சயதார்தம்" }
+    },
+    {
+      "id": "birthday",
+      "name": { "en": "Birthday", "ta": "பிறந்த நாள்" }
+    },
+    {
+      "id": "housewarming",
+      "name": { "en": "Housewarming", "ta": "வீட்டு வெப்ப உற்సவம்" }
+    },
+    {
+      "id": "babyshower",
+      "name": { "en": "Baby Shower", "ta": "குழந்தை குளியல்" }
+    },
+    {
+      "id": "corporate",
+      "name": { "en": "Corporate Event", "ta": "கார்பोரேட் நிகழ்வு" }
+    },
+    {
+      "id": "custom",
+      "name": { "en": "Custom Event", "ta": "தனிப்பயனி நிகழ்வு" }
+    }
+  ],
+  "theme": {
+    "colors": {
+      "primary": "#C8A96E",
+      "secondary": "#D4849A",
+      "background": "#080D1C",
+      "surface": "#0D1530",
+      "text": "#F2DFA0"
+    },
+    "fonts": {
+      "heading": "'Playfair Display', serif",
+      "body": "'Cormorant Garamond', serif",
+      "accent": "'Great Vibes', cursive"
+    }
+  }
+}

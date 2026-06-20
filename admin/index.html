@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Phase 3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    .header h1 {
+      font-size: 36px;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid transparent;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border-color: #667eea;
+    }
+
+    .dashboard-card a {
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+
+    .card-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .card-badge {
+      display: inline-block;
+      background: #e8eaf6;
+      color: #667eea;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 15px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .feature-item {
+      padding: 15px;
+      background: #f9f9f9;
+      border-left: 4px solid #667eea;
+      border-radius: 4px;
+    }
+
+    .feature-item strong {
+      color: #333;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .feature-item span {
+      color: #666;
+      font-size: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .link-btn {
+      padding: 15px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }
+
+    .link-btn:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎉 Admin Dashboard</h1>
+      <p>Manage your digital invitation - Phase 3 Complete</p>
+      <div class="version-badge">v3.0.0 - Full Feature Complete</div>
+    </div>
+
+    <!-- Phase 1 & 2 Features -->
+    <div class="dashboard-grid">
+      <a href="events.html" class="dashboard-card">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Events</div>
+        <div class="card-desc">Manage event schedule</div>
+        <div class="card-badge">Phase 2</div>
+      </a>
+
+      <a href="gallery.html" class="dashboard-card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-title">Gallery</div>
+        <div class="card-desc">Upload images</div>
+        <div class="card-badge">Phase 2</div>
+      </a>
+
+      <a href="music.html" class="dashboard-card">
+        <div class="card-icon">🎵</div>
+        <div class="card-title">Music</div>
+        <div class="card-desc">Background music</div>
+        <div class="card-badge">Phase 2</div>
+      </a>
+
+      <a href="theme.html" class="dashboard-card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">Theme</div>
+        <div class="card-desc">Colors & fonts</div>
+        <div class="card-badge">Phase 2</div>
+      </a>
+
+      <a href="templates.html" class="dashboard-card">
+        <div class="card-icon">✨</div>
+        <div class="card-title">Templates</div>
+        <div class="card-desc">Design templates</div>
+        <div class="card-badge">Phase 2</div>
+      </a>
+
+      <!-- Phase 3 Features -->
+      <a href="media.html" class="dashboard-card">
+        <div class="card-icon">📁</div>
+        <div class="card-title">Media</div>
+        <div class="card-desc">All media files</div>
+        <div class="card-badge">Phase 3 NEW</div>
+      </a>
+
+      <a href="builder.html" class="dashboard-card">
+        <div class="card-icon">🔨</div>
+        <div class="card-title">Builder</div>
+        <div class="card-desc">Page layout</div>
+        <div class="card-badge">Phase 3 NEW</div>
+      </a>
+
+      <a href="rsvp.html" class="dashboard-card">
+        <div class="card-icon">✉️</div>
+        <div class="card-title">RSVP</div>
+        <div class="card-desc">Guest responses</div>
+        <div class="card-badge">Phase 3 NEW</div>
+      </a>
+
+      <a href="publish.html" class="dashboard-card">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">Publish</div>
+        <div class="card-desc">Go live</div>
+        <div class="card-badge">Phase 3 NEW</div>
+      </a>
+
+      <a href="login.html" class="dashboard-card">
+        <div class="card-icon">🔐</div>
+        <div class="card-title">Security</div>
+        <div class="card-desc">Admin login</div>
+        <div class="card-badge">Phase 3 NEW</div>
+      </a>
+    </div>
+
+    <!-- Phase 3 Features Section -->
+    <div class="section">
+      <h2>✨ Phase 3 New Features</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <strong>📁 Media Manager</strong>
+          <span>Drag & drop upload for images, videos, and audio</span>
+        </div>
+        <div class="feature-item">
+          <strong>🔨 Visual Page Builder</strong>
+          <span>Drag sections to create custom layouts</span>
+        </div>
+        <div class="feature-item">
+          <strong>✉️ RSVP System</strong>
+          <span>Guest responses with export options</span>
+        </div>
+        <div class="feature-item">
+          <strong>📱 QR Code Generator</strong>
+          <span>Generate QR codes for sharing</span>
+        </div>
+        <div class="feature-item">
+          <strong>💬 WhatsApp Sharing</strong>
+          <span>Share directly to WhatsApp</span>
+        </div>
+        <div class="feature-item">
+          <strong>📦 Import/Export</strong>
+          <span>Backup and restore complete packages</span>
+        </div>
+        <div class="feature-item">
+          <strong>🎯 Publish Workflow</strong>
+          <span>Validation before publishing</span>
+        </div>
+        <div class="feature-item">
+          <strong>🔐 Admin Authentication</strong>
+          <span>Password-protected admin panel</span>
+        </div>
+        <div class="feature-item">
+          <strong>🌐 SEO Optimization</strong>
+          <span>Auto-generate meta tags and structured data</span>
+        </div>
+        <div class="feature-item">
+          <strong>🛒 Template Marketplace</strong>
+          <span>Multiple professional templates</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="section">
+      <h2>📊 Quick Stats</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="event-count">0</div>
+          <div class="stat-label">Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="rsvp-count">0</div>
+          <div class="stat-label">RSVPs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="gallery-count">0</div>
+          <div class="stat-label">Images</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="storage-used">0 MB</div>
+          <div class="stat-label">Storage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="section">
+      <h2>🔗 Quick Actions</h2>
+      <div class="quick-links">
+        <a href="../invitation.html" target="_blank" class="link-btn">👁️ Preview Invitation</a>
+        <a href="../index.html" target="_blank" class="link-btn">🏠 Home Page</a>
+        <a href="publish.html" class="link-btn">🚀 Publish Now</a>
+        <button onclick="exportAll()" class="link-btn">📦 Export All</button>
+        <button onclick="createBackup()" class="link-btn">💾 Backup</button>
+        <button onclick="openSettings()" class="link-btn">⚙️ Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/import-export-manager.js"></script>
+  <script>
+    function loadStats() {
+      // Events
+      const events = JSON.parse(localStorage.getItem('invitation_events') || '{"events":[]}');
+      document.getElementById('event-count').textContent = events.events?.length || 0;
+
+      // RSVPs
+      const rsvps = JSON.parse(localStorage.getItem('rsvp_responses') || '[]');
+      document.getElementById('rsvp-count').textContent = rsvps.length;
+
+      // Gallery
+      const gallery = JSON.parse(localStorage.getItem('gallery') || '{"images":[]}');
+      document.getElementById('gallery-count').textContent = gallery.images?.length || 0;
+
+      // Storage
+      const stats = importExportManager.getStorageStats();
+      document.getElementById('storage-used').textContent = stats.totalSizeFormatted;
+    }
+
+    function exportAll() {
+      importExportManager.exportAsJSON('complete-invitation-package.json');
+      alert('Package exported successfully!');
+    }
+
+    function createBackup() {
+      const backup = importExportManager.backupCurrentData();
+      alert('Backup created at ' + new Date(backup.timestamp).toLocaleString());
+    }
+
+    function openSettings() {
+      alert('Settings panel coming soon!');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStats);
+  </script>
+</body>
+</html>
